@@ -5,11 +5,6 @@ from main import app
 from fastapi.testclient import TestClient
 
 
-# @pytest.fixture
-def test_client():
-    return TestClient(app)
-
-
 @pytest.fixture
 def test_session():
     connection = sqlite3.connect(":memory:")
@@ -28,7 +23,7 @@ def test_session():
 
 
 def test_create_question():
-    client = test_client()
+    client = TestClient(app)
 
     response = client.post("/questions/", json={"questions_num": 5})
 
