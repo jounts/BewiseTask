@@ -5,23 +5,6 @@ from main import app
 from fastapi.testclient import TestClient
 
 
-@pytest.fixture
-def test_session():
-    connection = sqlite3.connect(":memory:")
-    cursor = connection.cursor()
-    cursor.execute('''CREATE TABLE question (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        question TEXT,
-        answer TEXT,
-        value INTEGER,
-        created_at DATETIME
-    )''')
-
-    connection.commit()
-    yield connection
-    connection.close()
-
-
 def test_create_question():
     client = TestClient(app)
 
