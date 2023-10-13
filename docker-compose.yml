@@ -1,0 +1,34 @@
+version: "3"
+
+services:
+  postgres:
+    container_name: postgres
+    restart: always
+    image: postgres:latest
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    env_file:
+      - .env
+    user: "${POSTGRES_USER}"
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - ./pg-data:/var/lib/postgresql/data
+
+  app:
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "${APP_PORT}:8000"
+    build:
+      context: .
+    env_file:
+      - .env
+    container_name: questions_backend
+    entrypoint: ["sh", "run.sh"]
+volumes:
+  pg-data:
