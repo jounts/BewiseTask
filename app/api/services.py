@@ -48,6 +48,3 @@ async def write_questions(count: int, session: AsyncSession):
             raise HTTPException(status_code=500, detail='database error')
 
         count -= len(not_exists)
-
-
-
