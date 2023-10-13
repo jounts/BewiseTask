@@ -16,7 +16,3 @@ async def get_async_session() -> AsyncGenerator[AsyncSession, None]:
             yield session
     except Exception:
         raise HTTPException(status_code=500)
-
-
-class Base(DeclarativeBase):
-    pass
